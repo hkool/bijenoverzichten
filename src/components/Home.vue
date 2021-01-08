@@ -41,7 +41,7 @@
   <button @click="addFilter(nwfilter)" class="btn btn-info">add filter</button>
     <ul class="list-group">
       <li class="list-group-item" v-for="(filter, index) in selectedfilters" :key="index">
-      {{filter}}
+      {{filter}} <button @click="removeFilter(filter)" class="btn btn-info">remove filter</button>
       </li>
     </ul>
   </div>
@@ -49,7 +49,7 @@
   <div class="card">
   <h2 class="card-head"> kast nummer  {{ selectedHive.id}}</h2>
     <div class="card-body"> 
-    <p v-for="(filter,index) in selectedfilters" :key="index">
+    <p v-for="(filter, index) in selectedfilters" :key="index">
       {{ filter }}:  {{ selectedHive[filter] }}</p> 
     
     <img class="card-image-bottom " :src="getImgUrl(selectedHive.img)"  :alt="selectedHive.plaats"/>
@@ -111,7 +111,14 @@ export default {
     },
    addFilter(nwfilter){
      this.selectedfilters.push(nwfilter);
+      let filterindex = this.filters.findIndex(b => b === nwfilter) ; // => 3
+     this.filters.splice(filterindex,1);
      this.nwfilter='';
+   },
+   removeFilter(filter){
+      this.filters.push(filter);
+      let filterindex = this.selectedfilters.findIndex(b => b === filter) ; // => 3
+     this.selectedfilters.splice(filterindex,1);
    }
   
   }
