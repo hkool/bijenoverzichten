@@ -1,12 +1,13 @@
 <template>
     <div  class="bannerdatum">
-        Het is vandaag {{ new Date() }}
+        Het is vandaag {{  today }}
     </div>
 </template>
 <script>
+import mixins from '../mixins/mixins';
 export default {
-    name: "BannerDatum"
-    
+    name: "BannerDatum",
+    mixins: [mixins],
 }
 </script>
 <style scoped>

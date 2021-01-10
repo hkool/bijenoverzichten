@@ -30,38 +30,42 @@
   filters 
   <select class="form-control-lg"
   v-model="nwfilter"  >
-    <option v-for="(filter,index) in filters"
+    <option v-for="(filter,index) in datagroup"
     :key="index"
     :value="filter">
-    {{filter}}
+    {{ filter }}
     </option>
   </select>
   <!-- <input type="text" v-model="nwfilter" placeholder="add filter... " />  -->
   
   <button @click="addFilter(nwfilter)" class="btn btn-info">add filter</button>
     <ul class="list-group">
-      <li class="list-group-item" v-for="(filter, index) in selectedfilters" :key="index">
-      {{filter}} <button @click="removeFilter(filter)" class="btn btn-info">remove filter</button>
+      <li class="list-group-item" v-for="(sfilter, index) in selectedfilters" :key="index">
+      {{ sfilter }} <button @click="removeFilter(sfilter)" class="btn btn-info">remove filter</button>
       </li>
     </ul>
   </div>
   
-  <div class="card">
+  <!-- <div class="card">
   <h2 class="card-head"> kast nummer  {{ selectedHive.id}}</h2>
     <div class="card-body"> 
+      <p>datum: {{ selectedHive.datumtijd | timestampToDate }}
     <p v-for="(filter, index) in selectedfilters" :key="index">
       {{ filter }}:  {{ selectedHive[filter] }}</p> 
     
     <img class="card-image-bottom " :src="getImgUrl(selectedHive.img)"  :alt="selectedHive.plaats"/>
     </div>
-  </div> 
+  </div>  -->
+  <kast-details v-if="selectedHive" :hive="selectedHive" :selectedfilters="selectedfilters" />
 </div>
 </template>
 
 <script>
 import hivesData from '../data/hives';
-import mixins from '../mixins/mixins';
+import mixins from '../mixins/mixins'; 
+import KastDetails from './KastDetails.vue';
 export default {
+  components: { KastDetails },
   name: 'Home',
   props: {
     msg: String,
@@ -76,21 +80,16 @@ export default {
       period:'',
       nwfilter:'',
       selectedfilters:[],
-      filters:["regen", "licht","co2","luchtdruk","frequentie",'windsterkte',"windrichting"]
+      datagroup:["regen", "licht","co2","luchtdruk","frequentie",'windsterkte',"windrichting"]
     }
   },
   computed: {
     selectedHive(){
       return this.hivesData.hives[this.selectedHiveIndex];
     },
-    selectedDate(){
-      let timestamp = this.hivesData.hives[this.selectedHiveIndex].datumtijd
-      let newDate = new Date(timestamp *1000)
-      return newDate.getDate() + "-" + (newDate.getMonth()+1) + "-" + (newDate.getYear()+1900);
-    },
     isClosed(){
       let isWinter = false;
-       let timestamp = this.hivesData.hives[this.selectedHiveIndex].datumtijd
+      let timestamp = this.hivesData.hives[this.selectedHiveIndex].datumtijd
       let newDate = new Date(timestamp *1000)
       if (newDate.getMonth() > 8 ){
         isWinter = true;
@@ -111,17 +110,18 @@ export default {
     },
    addFilter(nwfilter){
      this.selectedfilters.push(nwfilter);
-      let filterindex = this.filters.findIndex(b => b === nwfilter) ; // => 3
-     this.filters.splice(filterindex,1);
+      let filterindex = this.datagroup.findIndex(b => b === nwfilter) ; // => 3
+     this.datagroup.splice(filterindex,1);
      this.nwfilter='';
    },
    removeFilter(filter){
-      this.filters.push(filter);
+      this.datagroup.push(filter);
       let filterindex = this.selectedfilters.findIndex(b => b === filter) ; // => 3
      this.selectedfilters.splice(filterindex,1);
    }
   
-  }
+  },
+  
 }
 </script>
 
