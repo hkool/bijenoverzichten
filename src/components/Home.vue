@@ -56,7 +56,7 @@
     <img class="card-image-bottom " :src="getImgUrl(selectedHive.img)"  :alt="selectedHive.plaats"/>
     </div>
   </div>  -->
-  <kast-details v-if="selectedHive" :hive="selectedHive" :selectedfilters="selectedfilters" />
+  <kast-details v-if="selectedHive" @signal="onSignal($event)" :hive="selectedHive" :selectedfilters="selectedfilters" />
 </div>
 </template>
 
@@ -108,17 +108,20 @@ export default {
     selectHive(index){
       this.selectedHiveIndex = index;
     },
-   addFilter(nwfilter){
-     this.selectedfilters.push(nwfilter);
-      let filterindex = this.datagroup.findIndex(b => b === nwfilter) ; // => 3
-     this.datagroup.splice(filterindex,1);
-     this.nwfilter='';
-   },
-   removeFilter(filter){
-      this.datagroup.push(filter);
-      let filterindex = this.selectedfilters.findIndex(b => b === filter) ; // => 3
-     this.selectedfilters.splice(filterindex,1);
-   }
+    addFilter(nwfilter){
+      this.selectedfilters.push(nwfilter);
+        let filterindex = this.datagroup.findIndex(b => b === nwfilter) ; // => 3
+      this.datagroup.splice(filterindex,1);
+      this.nwfilter='';
+    },
+    removeFilter(filter){
+        this.datagroup.push(filter);
+        let filterindex = this.selectedfilters.findIndex(b => b === filter) ; // => 3
+      this.selectedfilters.splice(filterindex,1);
+    },
+    onSignal(value){
+      this.hivesData.hives[this.selectedHiveIndex].signal=value;
+    }
   
   },
   

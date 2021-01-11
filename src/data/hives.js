@@ -12,7 +12,8 @@ const hivesData = {
             luchtdruk: 0.2,
             windsterkte: 4,
             windrichting: 92,
-            img:"klaverweg.png"
+            img:"klaverweg.png",
+            signal:-1
         },
         {
             id: 2,
@@ -24,7 +25,8 @@ const hivesData = {
             luchtdruk: 0.4,
             windsterkte: 4,
             windrichting: 105,
-            img:"klaverweg2.png"
+            img:"klaverweg2.png",
+            signal:-1
         },
         {
             id: 3,
@@ -36,7 +38,8 @@ const hivesData = {
             luchtdruk: 0,
             windsterkte: 3,
             windrichting: 90,
-            img:"klaverweg3.png"
+            img:"klaverweg3.png",
+            signal:-1
         }
     ]
 }
